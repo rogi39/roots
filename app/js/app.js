@@ -315,3 +315,41 @@ function widthScrollBar() {
 	div.remove();
 	return scrollWidth;
 }
+
+
+let aboutItemButton = document.querySelectorAll('.about__item-button');
+if (aboutItemButton) {
+	aboutItemButton.forEach(el => {
+		el.addEventListener('click', openModal);
+	})
+}
+
+function openModal(e) {
+	let trg = e.currentTarget;
+	let modal = trg.querySelector('.about__modal');
+	window.addEventListener('click', function (e) {
+		if (e.target.classList.contains("about__modal") && modal.classList.contains('active') || e.target.classList.contains("about__modal-close")) {
+			fadeOut(modal, 300);
+			setTimeout(() => {
+				modal.classList.remove('active');
+				document.body.classList.remove("noscroll");
+				header.style.paddingRight = '0px';
+				document.querySelector('.main').style.paddingRight = '0px';
+				modal.querySelector(".about__modal-video").src = "";
+			}, 300);
+
+		}
+	});
+	if (modal !== null && !modal.classList.contains('active')) {
+		let wsb = widthScrollBar();
+		fadeIn(modal, 300, 'flex');
+		document.body.classList.add("noscroll");
+		header.style.paddingRight = wsb + 'px';
+		document.querySelector('.main').style.paddingRight = wsb + 'px';
+		setTimeout(() => {
+			modal.classList.add('active');
+		}, 300);
+		modal.querySelector(".about__modal-video")
+		modal.querySelector(".about__modal-video").src = modal.querySelector(".about__modal-video").dataset.temp;
+	}
+}

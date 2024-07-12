@@ -674,6 +674,7 @@ img
 			flex-direction: row
 	/* .about__item */
 	&__item
+		cursor: pointer
 		max-width: 277px
 		+media-breakpoint-up(sm)
 			max-width: initial
@@ -681,10 +682,20 @@ img
 	/* .about__item-img */
 	&__item-img
 		border-radius: 10px
-		margin-bottom: 26px
 		max-height: 100px
 		width: 100%
 		object-fit: cover
+	&__item-img-block
+		position: relative
+		margin-bottom: 26px
+		&::before
+			position: absolute
+			top: calc( 50% - 30px )
+			left: calc( 50% - 30px )
+			width: 60px
+			height: 60px
+			content: ""
+			background-image: url("../images/play.svg")
 	/* .about__item-title */
 	&__item-title
 		font-weight: 600
@@ -701,7 +712,6 @@ img
 		line-height: 160%
 		text-align: center
 		color: #333
-
 	/* .about__right */
 	&__right
 		flex: 1
@@ -709,6 +719,58 @@ img
 	&__widget
 		iframe
 			max-width: 585px
+	&__modal
+		display: none
+		position: fixed
+		background-color: rgba(19,19,19,.9)
+		top: 0
+		left: 0
+		width: 100%
+		height: 100%
+		z-index: 5
+		overflow-y: scroll
+		align-items: center
+		padding: 80px 0px
+	/* .memories__modal-block */
+	&__modal-block
+		margin-left: auto
+		margin-right: auto
+		background: #fff
+		padding: 20px
+		border-radius: 10px
+		position: relative
+		width: 100%
+		height: 250px
+		+media-breakpoint-up(sm)
+			width: 576px
+			height: 300px
+			padding: 20px 10px
+		+media-breakpoint-up(md)
+			padding: 40px 30px
+			width: 760px
+			height: 400px
+	&__modal-close
+		position: absolute
+		cursor: pointer
+		top: -40px
+		right: 0
+		padding: 15px 0
+		z-index: 2
+		&:after, &:before
+			content: ""
+			width: 35px
+			height: 1px
+			display: block
+			background-color: #fff
+		&:after
+			transform: rotate(45deg)
+		&:before
+			transform: rotate(-45deg)
+	&__modal-video
+		width: 100%
+		border-radius: 10px
+		width: 100%
+		height: 100%
 
 .more
 	font-weight: 400
@@ -1139,6 +1201,7 @@ img
 		margin-bottom: 30px
 	/* .memories__modal-img */
 	&__modal-img
+		width: 100%
 		margin-bottom: 30px
 		border-radius: 5px
 
