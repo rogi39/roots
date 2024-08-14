@@ -206,47 +206,48 @@ function openMemories(e) {
 	}
 }
 
+if (document.querySelector(".form")) {
 
+	document.querySelector('.form').addEventListener('submit', sendForm);
 
-document.querySelector('.form').addEventListener('submit', sendForm);
-
-function sendForm(event) {
-	let form = event.target;
-	event.preventDefault();
-	let btn = event.target.querySelector('button');
-	let btnText = btn.textContent;
-	btn.setAttribute('disabled', 'disabled');
-	btn.textContent = 'Загрузка...';
-	let formData = new FormData(form);
-	formData.append("action", "form_send");
-	fetch('/wp-admin/admin-ajax.php', {
-			method: "POST",
-			body: formData,
-		})
-		.then(response => response.json())
-		.then((data) => {
-			if (data.result === 'ok') {
-				formMessageResponse(true, data.message);
-				btn.textContent = btnText;
-				btn.removeAttribute('disabled');
-				form.reset();
-			} else if (data.result === 'false') {
-				formMessageResponse(false, data.message);
-				btn.textContent = btnText;
-				btn.removeAttribute('disabled');
-				let inputs = form.querySelectorAll('input');
-				inputs.forEach(el => {
-					el.addEventListener('input', () => {
-						el.removeAttribute("style");
+	function sendForm(event) {
+		let form = event.target;
+		event.preventDefault();
+		let btn = event.target.querySelector('button');
+		let btnText = btn.textContent;
+		btn.setAttribute('disabled', 'disabled');
+		btn.textContent = 'Загрузка...';
+		let formData = new FormData(form);
+		formData.append("action", "form_send");
+		fetch('/wp-admin/admin-ajax.php', {
+				method: "POST",
+				body: formData,
+			})
+			.then(response => response.json())
+			.then((data) => {
+				if (data.result === 'ok') {
+					formMessageResponse(true, data.message);
+					btn.textContent = btnText;
+					btn.removeAttribute('disabled');
+					form.reset();
+				} else if (data.result === 'false') {
+					formMessageResponse(false, data.message);
+					btn.textContent = btnText;
+					btn.removeAttribute('disabled');
+					let inputs = form.querySelectorAll('input');
+					inputs.forEach(el => {
+						el.addEventListener('input', () => {
+							el.removeAttribute("style");
+						});
 					});
-				});
-				if (data.errors) {
-					for (let el in data.errors) {
-						document.querySelector(`input[name=${el}]`).style.borderColor = "#da4c4c";
+					if (data.errors) {
+						for (let el in data.errors) {
+							document.querySelector(`input[name=${el}]`).style.borderColor = "#da4c4c";
+						}
 					}
 				}
-			}
-		});
+			});
+	}
 }
 
 function formMessageResponse(check, msg = '') {
